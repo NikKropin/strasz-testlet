@@ -60,7 +60,7 @@ namespace Testlet.Tests
         public void TestletItemsHaveDifferentOrder()
         {
             bool isOrderDifferent = false;
-            var testletItems = this._testlet.GetItems();
+            var testletItems = this._testlet.Randomize();
             for (int i = 0; i < testletItems.Count; ++i)
             {
                 if (testletItems[i].ItemId != this.items[i].ItemId &&
