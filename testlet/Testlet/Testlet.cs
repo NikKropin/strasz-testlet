@@ -19,7 +19,25 @@ namespace Testlet
         }
         public List<Item> Randomize()
         {
-            throw new NotImplementedException("Not implemented");
+            List<Item> randomizedItems = new List<Item>();
+            var randomGenerator = new Random();
+
+            var pretestItems = this.Items.Where(item => item.ItemType == ItemTypeEnum.Pretest).ToList();
+            int firstPretestIndex = randomGenerator.Next(4);
+            int secondPretestIndex = randomGenerator.Next(4);
+            while (secondPretestIndex == firstPretestIndex)
+            {
+                secondPretestIndex = randomGenerator.Next(4);
+            }
+
+            randomizedItems.AddRange(new Item[]{ pretestItems[firstPretestIndex], pretestItems[secondPretestIndex] });
+
+            var remainingItemsShuffled = this.Items
+                    .Where(item => !randomizedItems.Any(i => i.ItemId == item.ItemId && i.ItemType == item.ItemType))
+                    .OrderBy(i => randomGenerator.Next())
+                    .ToList();
+            randomizedItems.AddRange(remainingItemsShuffled);
+            return randomizedItems;
         }
     }
     public class Item
